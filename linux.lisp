@@ -21,8 +21,13 @@
     (with-foreign-slots ((tv-sec tv-nsec) ts (:struct timespec))
       (values tv-sec tv-nsec))))
 
-(defconstant monotonic-time-units-per-second 1000000000
-  "The number of monotonic time units in one second.")
+(declaim (inline monotonic-time-units-per-second))
+(defun monotonic-time-units-per-second ()
+  "Return the number of monotonic time units in one second.
+
+The value returned should remain valid for the duration of the running
+Lisp process, but no guarantee is made beyond this extent."
+  1000000000)
 
 (defun monotonic-now (&optional mode)
   "Return the current monotonic time in monotonic time units.
@@ -37,4 +42,4 @@ is not affected by NTP."
                        ;; :COARSE is undocumented, but here for
                        ;; completeness.
                        ((:coarse) clock-monotonic-coarse)))
-    (+ (* sec monotonic-time-units-per-second) nsec)))
+    (+ (* sec (monotonic-time-units-per-second)) nsec)))
