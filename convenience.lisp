@@ -14,4 +14,4 @@
           ;; Assumes that the monotonic time unit is at least a
           ;; millisecond.  We're doing the calculation this way
           ;; because it's efficient.
-          (floor monotonic-time-units-per-second 1000))))
+          (floor (monotonic-time-units-per-second) 1000))))
