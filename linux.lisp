@@ -29,12 +29,17 @@ The value returned should remain valid for the duration of the running
 Lisp process, but no guarantee is made beyond this extent."
   1000000000)
 
-(defun monotonic-now (&optional mode)
+(defun monotonic-now (&optional mode include-suspend-p)
   "Return the current monotonic time in monotonic time units.
 
 If MODE is NIL (the default) the monotonic time is possibly affected
 by NTP.  If it is :RAW, effort is made to return a monotonic time that
-is not affected by NTP."
+is not affected by NTP.
+
+If INCLUDE-SUSPEND-P is true, time spent while the system is suspended is
+included. The default is false."
+  (assert (not include-suspend-p) (include-suspend-p)
+          "Does not support INCLUDE-SUSPEND-P = true.")
   (multiple-value-bind (sec nsec)
       (clock-gettime (ecase mode
                        ((nil) clock-monotonic)
