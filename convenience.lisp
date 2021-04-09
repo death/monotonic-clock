@@ -7,6 +7,7 @@
 (unless (fboundp 'monotonic-now)
   (error "Monotonic clock is not implemented on this platform; patches welcome!"))
 
+(declaim (inline monotonic-now/ms))
 (defun monotonic-now/ms (&optional mode)
   "Return the current monotonic time in milliseconds."
   (values
